@@ -5,6 +5,8 @@ import { selectUser } from "../feature/userSlice";
 import "./css/QuoraBox.css";
 
 function QuoraBox() {
+  
+  
   const user = useSelector(selectUser)
   return (
     <div className="quoraBox">
@@ -13,6 +15,7 @@ function QuoraBox() {
       </div>
       <div className="quoraBox__quora">
         <h5>What is your question or link?</h5>
+        
       </div>
     </div>
   );

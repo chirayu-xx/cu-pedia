@@ -19,7 +19,7 @@
   }
   
   .qHeader__logo > img {
-    height: 30px !important;
+    height: 80px;
     object-fit: contain;
   }
   

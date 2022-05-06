@@ -4,7 +4,7 @@ const app = express()
 const path = require('path')
 const cors = require('cors')
 const bodyParser = require('body-parser')
-const PORT = 80;
+const PORT = process.env.PORT || 80;
 const db = require('./db');
 const router = require('./routes')
 
@@ -36,6 +36,10 @@ app.get("*", (req,res) =>{
 })
 
 app.use(cors())
+
+if(process.env.NODE_ENV == "production"){
+    app.use(express.static("frontend/build"));
+}
 
 //serverListening
 app.listen(process.env.PORT || PORT, () => {

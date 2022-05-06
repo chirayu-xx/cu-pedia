@@ -210,3 +210,12 @@
   width: 100%;
   height: 120px;
 }
+
+.answerModal{
+  font-size: small;
+  font-weight: 500;
+  cursor: pointer;
+}
+.answerModal:hover{
+  color: #8f1f1b;
+}

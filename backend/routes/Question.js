@@ -3,6 +3,15 @@ const router = express.Router()
 
 const questionDB = require('../models/Question')
 
+router.delete('/:_id', async (req,res) => {
+    await questionDB.deleteOne({_id:req.params.id})
+    .then(() => {
+        res.status(200).json({  
+            message: "Question deleted successfully..."
+        })
+    })
+})  
+
 router.post('/', async (req,res) =>{
     console.log(req.body)
 
@@ -25,6 +34,7 @@ router.post('/', async (req,res) =>{
     }
 })
 
+
 router.get('/', async (req,res) =>{
     try{
         await questionDB.aggregate([
@@ -41,7 +51,7 @@ router.get('/', async (req,res) =>{
         }).catch((error) => {
             res.status(500).send({
                 status: false,
-                message:"Enabl eto get the question details"
+                message:"Enable to get the question details"
             })
         })
     }catch(e){

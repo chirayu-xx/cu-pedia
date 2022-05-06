@@ -1,10 +1,8 @@
 import React, { useState } from 'react'
 import HomeIcon from "@material-ui/icons/Home";
-import FeaturedPlayListOutlinedIcon from "@material-ui/icons/FeaturedPlayListOutlined";
+
 import {
-  AssignmentTurnedInOutlined,
   ExpandMore,
-  NotificationsOutlined,
   PeopleAltOutlined,
   Search,
   // ExpandMore,
@@ -19,6 +17,7 @@ import { signOut } from 'firebase/auth';
 import { auth } from '../firebase';
 import { logout, selectUser } from '../feature/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import logo from './logo.PNG';
 
 
 function QuoraHeader() {
@@ -28,8 +27,8 @@ function QuoraHeader() {
     if(window.confirm("Are you sure to Logout?")){
     signOut(auth)
     .then(() =>{
-      dispatch(logout()) 
-      console.log("Logged Out successfully");
+      dispatch(logout())
+      console.log("Logged out successffully!!")
     })
     .catch((e) => {
       console.log("Error while Logging out");
@@ -37,6 +36,7 @@ function QuoraHeader() {
     }
   };
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [profileModal, setProfileModal] = useState(false);
   const [inputUrl, setInputUrl] = useState("");
   const Close = <CloseIcon />;
   const [question,setQuestion] = useState("");
@@ -70,34 +70,54 @@ function QuoraHeader() {
       <div className="qHeader-content">
         <div className="qHeader__logo">
           <img
-            src="https://video-public.canva.com/VAD8lt3jPyI/v/ec7205f25c.gif"
-            alt="logo"
+            src={logo}
+            alt="logo"  
           />
         </div>
         <div className="qHeader__icons">
           <div className="qHeader__icon">
+            <span className='qHeader__icon'>
             <HomeIcon />
+            </span>
           </div>
-          <div className="qHeader__icon">
-            <FeaturedPlayListOutlinedIcon />
-          </div>
-          <div className="qHeader__icon">
-            <AssignmentTurnedInOutlined />
-          </div>
+        
           <div className="qHeader__icon">
             <PeopleAltOutlined />
           </div>
-          <div className="qHeader__icon">
-            <NotificationsOutlined />
-          </div>
+  
         </div>
         <div className="qHeader__input">
           <Search />
           <input type="text" placeholder="Search questions" />
         </div>
         <div className="qHeader__Rem">
-          <span onClick={handleLogout}> 
+          <span onClick={() => setProfileModal(true)}> 
           <Avatar src= {user?.photo}/> 
+          <Modal
+            open={profileModal}
+            closeIcon={Close}
+            onClose={() => setProfileModal(false)}
+            closeOnEsc
+            center
+            closeOnOverlayClick={false}
+            styles={{
+              overlay: {
+                height: "auto",
+              },
+            }}
+          >
+            <div className='user'>
+            <Avatar className='avatar' src= {user?.photo}/>
+            <div className='user_details'>
+              Name: {user?.userName}
+            </div>
+            <div className='user_details'>
+            Email: {user?.email}
+            </div>
+            
+            </div>
+            
+          </Modal>
           </span>
           <Button onClick={() => setIsModalOpen(true)}>Add Question</Button>
           <Button onClick={handleLogout}>LogOut</Button>

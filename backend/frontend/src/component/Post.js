@@ -2,10 +2,7 @@ import { Avatar } from '@material-ui/core'
 import {
     ArrowDownwardOutlined,
     ArrowUpwardOutlined,
-    ChatBubbleOutlined,
-    MoreHorizOutlined,
-    RepeatOneOutlined,
-    ShareOutlined,
+    
 } from "@material-ui/icons";
 import React, { useState } from 'react';
 import './css/Post.css';
@@ -19,6 +16,8 @@ import axios from 'axios';
 import ReactHtmlParser from 'html-react-parser'
 import { useSelector } from 'react-redux';
 import { selectUser } from '../feature/userSlice';
+
+
 function LastSeen({ date }) {
     return (
         <div>
@@ -30,12 +29,13 @@ function LastSeen({ date }) {
 function Post({ post }) {
     const user = useSelector(selectUser)
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [anserModal, setAnswerModal] = useState(false);
     const Close = <CloseIcon />;
     const [answer, setAnswer] = useState("");
     const handleQuill = (value) => {
         setAnswer(value)
     }
-
+   
     const handleSubmit = async () => {
         if (post?._id && answer !== "") {
             const config = {
@@ -74,6 +74,9 @@ function Post({ post }) {
                         console.log(post?._id)
 
                     }} className='post__btnAnswer'>Answer</button>
+                    
+                    
+                    
                     <Modal open={isModalOpen}
                         closeIcon={Close}
                         onClose={() => setIsModalOpen(false)}
@@ -103,19 +106,15 @@ function Post({ post }) {
                         </div>
                     </Modal>
                 </div>
-                {post.questionId !== "" && <img src={post.questionUrl} alt="url" />}
+                {post.questionUrl !== "" && <img src={post.questionUrl} alt="url" />}
             </div>
             <div className='post__footer'>
                 <div className='post__footerAction'>
                     <ArrowUpwardOutlined />
                     <ArrowDownwardOutlined />
                 </div>
-                <RepeatOneOutlined />
-                <ChatBubbleOutlined />
-                <div className='post__footerLeft'>
-                    <ShareOutlined />
-                    <MoreHorizOutlined />
-                </div>
+                
+                
             </div>
             <p style={{
                 color: "rbga(0,0,0,0.5)",
@@ -123,14 +122,27 @@ function Post({ post }) {
                 fontWeight: "bold",
                 margin: "10px 0",
             }}>{post?.allAnswers.length} Answers</p>
-
+            <span className='answerModal' onClick={() => setAnswerModal(true)}>View Answers</span>
+            <Modal
+            open={anserModal}
+            closeIcon={Close}
+            onClose={() => setAnswerModal(false)}
+            closeOnEsc
+            center
+            closeOnOverlayClick={false}
+            styles={{
+              overlay: {
+                height: "auto",
+              },
+            }}
+          >
             <div style={{
                 display: "flex",
                 margin: "5px 0px 0px",
                 padding: "5px 0px 0px 20px",
                 borderTop: "1px solid lightgray",
             }}
-                className='post__answer'
+            className='post__answer'
             >
                 <div style={{
                     display: "flex",
@@ -174,6 +186,7 @@ function Post({ post }) {
                         }
                     </div>
                </div>
+             </Modal>
            
         </div>
     )
