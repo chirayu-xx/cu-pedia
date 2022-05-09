@@ -1,7 +1,7 @@
 
 .widget__contents {
     position: fixed;
-    right: 250px;
+    right: 10rem;
     top: 170px;
     display: flex;
     cursor: pointer;
